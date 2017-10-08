@@ -32,7 +32,8 @@ class WriteWithTheNet(BaseHTTPRequestHandler):
 	def do_GET(self):
 		paths = {
 			'/get_line'		: go_get_line,
-			'/get_story'	: go_get_story
+			'/get_story'	: go_get_story,
+			'/cookie_test'	: go_cookie_test
 		}
 
 		if urllib.parse.urlparse(self.path).path in paths:
@@ -62,6 +63,19 @@ class WriteWithTheNet(BaseHTTPRequestHandler):
 			self.end_headers()
 
 		return
+
+def go_cookie_test(self):
+	if "Cookie" in self.headers:
+		print "Cookies found: " + self.headers["Cookie"]
+	else:
+		print "No cookies."
+
+	self.send_response(200)
+	self.send_header("Content-Type", "application/json")
+	self.send_header("Set-Cookie", "test=rando")
+	self.end_headers()
+	
+	return
 
 def go_get_story(self):
 	get_vars = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
