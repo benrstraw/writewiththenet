@@ -66,15 +66,16 @@ class WriteWithTheNet(BaseHTTPRequestHandler):
 
 def go_cookie_test(self):
 	if "Cookie" in self.headers:
-		print "Cookies found: " + self.headers["Cookie"]
+		print("Cookies found: " + self.headers["Cookie"])
 	else:
-		print "No cookies."
+		print("No cookies.")
 
+	ruuid = random.randint(1, 10000000000)
 	self.send_response(200)
 	self.send_header("Content-Type", "application/json")
-	self.send_header("Set-Cookie", "test=rando")
+	self.send_header("Set-Cookie", "user=" + str(ruuid) + "; Expires: Wed, 01 Jan 2025 00:00:00 GMT")
 	self.end_headers()
-	
+
 	return
 
 def go_get_story(self):
@@ -101,6 +102,22 @@ def go_get_story(self):
 def go_get_line(self):
 	self.send_response(200)
 	self.send_header("Content-Type", "application/json")
+	
+#	print(self.headers["Cookie"])
+#
+#	if "Cookie" in self.headers:
+#		C = cookies.SimpleCookie()
+#		C.load(self.headers["Cookie"])
+#		if "user" in C:
+#			ruuid = C["user"]
+#		else:
+#			ruuid = random.randint(1, 2147483648)
+#			self.send_header("Set-Cookie", "user=" + str(ruuid) + "; Expires: Wed, 01 Jan 2025 00:00:00 GMT")
+#	else:
+#		ruuid = random.randint(1, 2147483648)
+#		self.send_header("Set-Cookie", "user=" + str(ruuid) + "; Expires: Wed, 01 Jan 2025 00:00:00 GMT")
+#
+#	print(ruuid)
 
 	global CURRENT_REQUESTS
 	CURRENT_REQUESTS += 1
