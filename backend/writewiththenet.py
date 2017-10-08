@@ -1,7 +1,9 @@
-import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import mysql.connector as mariadb
+import time
 import urllib
 import json
+import secrets
 
 HOST_NAME = 'localhost'
 PORT_NUMBER = 8462
@@ -45,12 +47,22 @@ def go_get_line(self):
 	self.send_response(200)
 	self.send_header("Content-Type", "text/plain")
 	self.end_headers()
-	self.wfile.write("Once upon a time, there was some code.".encode())
+
+	stories = [
+		"Once upon a time, there was some code.",
+		"You're at Knight Hacks 2017, when suddenly...",
+		"\"Dude, I'm super hungry,\" said your best friend Ben.",
+		"You are a cow. Moo.",
+		"And with that,you become the first person to step foot on Mars."
+	]
+
+	self.wfile.write(secrets.choice(stories).encode())
 	return
 
 def go_post_line(self, post_data):
 	post_vars = urllib.parse.parse_qs(post_data)
 	print(post_vars)
+	post_vars['new_line']
 
 	#database stuff
 	# new_story_id = the stuff
