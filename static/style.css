@@ -7,8 +7,33 @@ body {
   background-color: inherit;
 }
 
+.alt_background {
+  background: linear-gradient(45deg, #38307f, #4d394b);
+background-size: 100% 100%;
+
+-webkit-animation: alt_background-animation 5s ease infinite;
+-moz-animation: alt_background-animation 5s ease infinite;
+animation: alt_background-animation 5s ease infinite;
+
+@-webkit-keyframes alt_background-animation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes alt_background-animation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes alt_background-animation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+}
+
 .gray_background {
-  background-image: linear-gradient(#6d6d6d, #c5c3c3);
+  background-image: linear-gradient(#404040, #C0C0C0);
   background-repeat: repeat-x;
 }
 
@@ -19,6 +44,17 @@ body {
   font-size: 2.35em;
   position: relative;
   margin-top: 20%;
+}
+
+#new_line
+{
+  font-family: "Arial", Arial, sans-serif;
+  font-style: normal;
+  font-size: 1em;
+  position: relative;
+  margin-top: 15%;
+  color: white;
+
 }
 
 form {
@@ -41,11 +77,23 @@ input[type='text'] {
     height: 30px;
 }
 
-
 input[type='text']:focus {
     width: 95%;
 }
 
+.btn:hover {
+    background-color: #3b596f;
+    color: black;
+}
+
+.btn-another:hover {
+  background-color: #4C9689;
+  color: white;
+}
+
+.btn-another {
+  margin: 220px;
+}
 
 .btn-circle {
   width: 30px;
@@ -60,13 +108,7 @@ input[type='text']:focus {
   margin-left: 5px;
 }
 
-.btn:hover {
-  background-color: #3b596f;
+.btn-animate:hover {
   -webkit-transform: rotate(360deg);
   -ms-transform: rotate(360deg);
-}
-
-.btn-animate {
-  -webkit-transition: -webkit-transform .5s ease-in-out;
-  -ms-transition: -ms-transform .5s ease-in-out;
 }
