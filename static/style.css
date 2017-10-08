@@ -12,7 +12,7 @@ body {
   background-repeat: repeat-x;
 }
 
-#oldline
+#old_line
 {
   font-family: "Arial", Arial, sans-serif;
   font-style: normal;
@@ -56,10 +56,17 @@ input[type='text']:focus {
   background-color: black;
   font-size: 12px;
   line-height: 1.428571429;
-  border-radius: 15px;
+  border-radius: 20px;
   margin-left: 5px;
 }
 
 .btn:hover {
   background-color: #3b596f;
+  -webkit-transform: rotate(360deg);
+  -ms-transform: rotate(360deg);
+}
+
+.btn-animate {
+  -webkit-transition: -webkit-transform .5s ease-in-out;
+  -ms-transition: -ms-transform .5s ease-in-out;
 }
