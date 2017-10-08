@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from http import cookies
 import mysql.connector as mariadb
@@ -91,8 +94,8 @@ def go_get_story(self):
 
 	cursor.execute("SELECT line_text FROM story_lines WHERE story_id = %s", (get_vars['id'][0],))
 	thelines = cursor.fetchall()
-	print(json.dumps(thelines))
 	resp = json.dumps(thelines)
+#	print(resp)
 
 #	resp = "{\"text\":\"" + line_text + "\",\"left\":" + str(lines_left) + ",\"story_id\":" + str(story_id) + "}"
 
@@ -102,22 +105,17 @@ def go_get_story(self):
 def go_get_line(self):
 	self.send_response(200)
 	self.send_header("Content-Type", "application/json")
-	
-#	print(self.headers["Cookie"])
-#
-#	if "Cookie" in self.headers:
-#		C = cookies.SimpleCookie()
-#		C.load(self.headers["Cookie"])
-#		if "user" in C:
-#			ruuid = C["user"]
-#		else:
-#			ruuid = random.randint(1, 2147483648)
-#			self.send_header("Set-Cookie", "user=" + str(ruuid) + "; Expires: Wed, 01 Jan 2025 00:00:00 GMT")
-#	else:
-#		ruuid = random.randint(1, 2147483648)
-#		self.send_header("Set-Cookie", "user=" + str(ruuid) + "; Expires: Wed, 01 Jan 2025 00:00:00 GMT")
-#
-#	print(ruuid)
+
+	if "Cookie" in self.headers:
+		C = cookies.BaseCookie(self.headers["Cookie"])
+		if "user" in C:
+			ruuid = C["user"].value
+		else:
+			ruuid = random.randint(1, 2147483648)
+			self.send_header("Set-Cookie", "user=" + str(ruuid) + "; Expires: Wed, 01 Jan 2025 00:00:00 GMT")
+	else:
+		ruuid = random.randint(1, 2147483648)
+		self.send_header("Set-Cookie", "user=" + str(ruuid) + "; Expires: Wed, 01 Jan 2025 00:00:00 GMT")
 
 	global CURRENT_REQUESTS
 	CURRENT_REQUESTS += 1
@@ -175,7 +173,7 @@ def go_get_line(self):
 	self.end_headers()
 
 	kvjson = {}
-	kvjson["text"] = line_text
+	kvjson["text"] = line_text.encode('utf-8')
 	kvjson["left"] = lines_left
 	kvjson["story_id"] = story_id
 
@@ -200,12 +198,19 @@ def go_post_line(self, post_data):
 		self.end_headers()
 		return
 
-	print(post_vars)
-	print(post_vars['new_line'])
-	print(post_vars['new_line'][0])
+#	print(post_vars)
+	print(post_vars['new_line'][0].encode('utf-8'))
+
+	if "Cookie" in self.headers:
+		C = cookies.BaseCookie(self.headers["Cookie"])
+		if "user" in C:
+			ruuid = C["user"].value
 
 	try:
-		cursor.execute("INSERT INTO story_lines (story_id, line_text) VALUES (%s,%s)", (post_vars['story_id'][0], post_vars['new_line'][0]))
+		if ruuid:
+			cursor.execute("INSERT INTO story_lines (story_id, line_text, user_id) VALUES (%s,%s,%s)", (post_vars['story_id'][0], post_vars['new_line'][0], ruuid))
+		else:
+			cursor.execute("INSERT INTO story_lines (story_id, line_text) VALUES (%s,%s)", (post_vars['story_id'][0], post_vars['new_line'][0]))
 	except mariadb.Error as error:
 		print("Error: {}".format(error))
 
