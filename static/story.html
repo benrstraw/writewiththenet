@@ -23,17 +23,10 @@
     <script>
     $.getJSON("/app/get_story?id=" + getAllUrlParams().id, function(data)
       {
-        var lines [];
-        $.each( data, function(line)
+        $.each(data, function(line)
         {
-          lines.push( "<li id=''" + lines + "'>" + val + "</li>" );
+          $("#new_line").append(this[0] + "<br />");
         });
-
-        $( "<ul/>",
-        {
-          "class": "my-new-list",
-          html: items.join( "" )
-        }).appendTo( "body" );
       });
     </script>
   </body>

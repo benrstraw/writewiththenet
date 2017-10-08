@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
+    <center>
   <h1 id="old_line">&nbsp;</h1><br />
     <form method="post" action="/app/post_line">
       <span><input class="<clearable text-box focus" contenteditable="true" type="text" placeholder="Continue the story..." name="new_line" maxlength="250" autocomplete="off" />
@@ -23,15 +24,15 @@
       {
         $.getJSON("/app/get_line", function(data, status)
         {
-          $("#old_line").text(data["text"])
-          $("#storyID").val(data["story_id"])
+          $("#old_line").text(data["text"]);
+          $("#storyID").val(data["story_id"]);
           if (data["left"] < 10) {
             $("#leftInStory").text("There are only " + data["left"] + " lines left in this story.");
           }
-        })
+        });
       });
     </script>
-
+    </center>
   </body>
 </html>
 <!-- Make text input Enter-based, button rounded, with fade on click

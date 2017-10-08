@@ -8,12 +8,32 @@ body {
 }
 
 .alt_background {
-  background-image: linear-gradient(45deg, #4D394B, #38307F);
-  background-repeat: repeat-x;
+  background: linear-gradient(45deg, #38307f, #4d394b);
+background-size: 100% 100%;
+
+-webkit-animation: alt_background-animation 5s ease infinite;
+-moz-animation: alt_background-animation 5s ease infinite;
+animation: alt_background-animation 5s ease infinite;
+
+@-webkit-keyframes alt_background-animation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes alt_background-animation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes alt_background-animation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
 }
 
 .gray_background {
-  background-image: linear-gradient(#6d6d6d, #c5c3c3);
+  background-image: linear-gradient(#404040, #C0C0C0);
   background-repeat: repeat-x;
 }
 
