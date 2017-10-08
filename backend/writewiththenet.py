@@ -173,7 +173,7 @@ def go_get_line(self):
 	self.end_headers()
 
 	kvjson = {}
-	kvjson["text"] = line_text.encode('utf-8')
+	kvjson["text"] = line_text
 	kvjson["left"] = lines_left
 	kvjson["story_id"] = story_id
 
