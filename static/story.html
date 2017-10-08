@@ -9,9 +9,6 @@
   <body>
     <center>
     <h1 id="new_line">&nbsp;
-    <br /> {lines of "story" that are being updated} <br />
-    <br /> {every so often by random} <br />
-    <br /> {octopi on raspberry fruits} <br />
     </h1>
 <a> <input type="submit" class="btn-another btn "name="another" value="Do Another."></a>
     </center>
@@ -25,7 +22,7 @@
       {
         $.each(data, function(line)
         {
-          $("#new_line").append(this[0] + "<br />");
+          $("#new_line").append(this[0] + "<br /> <br />");
         });
       });
     </script>
