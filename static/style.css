@@ -1,5 +1,14 @@
+.gray_background {
+  background-image: linear-gradient(gray, white);
+  background-repeat: repeat-x;
+}
+
 #oldline
 {
+  font-family: "Arial", Arial, sans-serif;
+  font-style: normal;
+  font-size: 2.35em;
+
   position: relative;
   margin-top: 20%;
 }
