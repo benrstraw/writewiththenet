@@ -1,5 +1,14 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background-color: inherit;
+}
+
 .gray_background {
-  background-image: linear-gradient(gray, white);
+  background-image: linear-gradient(#6d6d6d, #c5c3c3);
   background-repeat: repeat-x;
 }
 
@@ -8,7 +17,45 @@
   font-family: "Arial", Arial, sans-serif;
   font-style: normal;
   font-size: 2.35em;
-
   position: relative;
   margin-top: 20%;
+}
+
+form {
+    display: table;
+    width: 90%;
+}
+span {
+    display: table-cell;
+    text-align: center;
+}
+span:first-child {
+    width: 100%;
+}
+input[type='text'] {
+    box-sizing: border-box;
+    -webkit-transition: width 1s;
+    -moz-transition: width 1s;
+    transition: width 1s;
+    width: 50%;
+    height: 30px;
+}
+
+
+input[type='text']:focus {
+    width: 95%;
+}
+
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  color: white;
+  background-color: black;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+  margin-left: 5px;
 }

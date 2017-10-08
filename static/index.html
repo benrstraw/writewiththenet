@@ -1,16 +1,16 @@
 <!DOCTYPE HTML>
-<html>
-<head>
-  <title>write.withthe.net</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="style.css">
-</head>
-  <body class="gray_background">
+<html class="gray_background">
+  <head>
+    <title>write.withthe.net</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
     <center>
     <h1 id="oldline">{old lines}</h1><br />
-    <form>
-      <input type= "text" name= "story" value= "Continue the story..." />
-      <input type="submit" value="->" />
+    <form method="get" action="/enter">
+      <span><input class="clearable" type="text" placeholder="Continue the story..." name="q" autocomplete="off" />
+      <button type="button" class="btn btn-default btn-circle">&rarr;</button></span>
     </form>
     </center>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -20,5 +20,4 @@
 </html>
 <!-- Make text input Enter-based, button rounded, with fade on click
 or on Enter press. Text animations when loading old text, gentle scroll
-effect, lots of fade my dudes, lots of fade. ~
--->
+effect, lots of fade my dudes, lots of fade. ~ -->
