@@ -49,10 +49,16 @@ def go_get_line(self):
 	return
 
 def go_post_line(self, post_data):
-	post_vars = urllib.parse.parse_qs(raw_post_data)
+	post_vars = urllib.parse.parse_qs(post_data)
 	print(post_vars)
+
+	#database stuff
+	# new_story_id = the stuff
+	new_story_id = 1234 # testing
+
 	self.send_response(303)
-	self.send_header("Location", "/")
+	self.send_header("Location", "/story?id=" + str(new_story_id))
+	self.end_headers()
 	return
 
 if __name__ == '__main__':
