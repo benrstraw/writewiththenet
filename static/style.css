@@ -7,6 +7,11 @@ body {
   background-color: inherit;
 }
 
+.alt_background {
+  background-image: linear-gradient(45deg, #4D394B, #38307F);
+  background-repeat: repeat-x;
+}
+
 .gray_background {
   background-image: linear-gradient(#6d6d6d, #c5c3c3);
   background-repeat: repeat-x;
@@ -19,6 +24,17 @@ body {
   font-size: 2.35em;
   position: relative;
   margin-top: 20%;
+}
+
+#new_line
+{
+  font-family: "Arial", Arial, sans-serif;
+  font-style: normal;
+  font-size: 1em;
+  position: relative;
+  margin-top: 15%;
+  color: white;
+
 }
 
 form {
@@ -46,6 +62,19 @@ input[type='text']:focus {
     width: 95%;
 }
 
+.btn:hover {
+    background-color: #3b596f;
+    color: black;
+}
+
+.btn-another:hover {
+  background-color: #4C9689;
+  color: white;
+}
+
+.btn-another {
+  margin: 220px;
+}
 
 .btn-circle {
   width: 30px;
@@ -60,13 +89,7 @@ input[type='text']:focus {
   margin-left: 5px;
 }
 
-.btn:hover {
-  background-color: #3b596f;
+.btn-animate:hover {
   -webkit-transform: rotate(360deg);
   -ms-transform: rotate(360deg);
-}
-
-.btn-animate {
-  -webkit-transition: -webkit-transform .5s ease-in-out;
-  -ms-transition: -ms-transform .5s ease-in-out;
 }
