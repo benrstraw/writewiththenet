@@ -14,6 +14,7 @@
       <span><input class="clearable" type="text" placeholder="Continue the story..." name="new_line" autocomplete="off" />
       <input type="submit" class="btn btn-default btn-circle hover btn-animate" value="&rarr;"></input></span>
     </form>
+    <div id="leftInStory"></div>
     </center>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
@@ -21,7 +22,15 @@
     <script>
       $(document).ready(function()
       {
-        $("#old_line").load("/app/get_line");
+        /* $("#old_line").load("/app/get_line"); */
+        $.get("/app/get_line", function(data, status)
+        {
+          line = JSON.parse(data);
+          $("#old_line").text(line["text"])
+          if (line["left"] < 10) {
+            $("#old_line").text("There are only " + line["left"] + " lines left in this story.");
+          }
+        })
       });
     </script>
   </body>
