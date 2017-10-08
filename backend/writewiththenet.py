@@ -16,7 +16,7 @@ PORT_NUMBER = 8462
 
 MAX_LINES_PER_STORY = 25
 MAX_REQS_BEFORE_NEW = 10
-SEEN_LIVE_TIME = 3
+SEEN_LIVE_TIME = 30 #seconds
 
 CURRENT_REQUESTS = 0
 
@@ -139,7 +139,7 @@ def go_get_line(self):
 		#cursor.execute("SELECT line_text FROM story_lines WHERE last_seen < NOW() - INTERVAL 5 MINUTE ORDER BY ID DESC LIMIT 1")
 		cursor.execute("""SELECT * FROM
 			(SELECT * FROM story_lines WHERE line_id IN (SELECT MAX(line_id) FROM story_lines GROUP BY story_id HAVING COUNT(*) <= %s) ORDER BY line_id DESC) AS last_lines
-			WHERE last_seen < NOW() - INTERVAL %s MINUTE""", (MAX_LINES_PER_STORY, SEEN_LIVE_TIME))
+			WHERE last_seen < NOW() - INTERVAL %s SECOND""", (MAX_LINES_PER_STORY, SEEN_LIVE_TIME))
 
 		recents = cursor.fetchall()
 		if not recents:
