@@ -18,8 +18,8 @@ PORT_NUMBER = 8462
 
 MAX_LINES_PER_STORY = 25
 REQUESTS_BEFORE_NEW_STORY = 15
-SEEN_LIVE_TIME = 60 #seconds
-SESSION_LIFETIME = 300 #seconds
+SEEN_LIVE_TIME = 150 #seconds
+SESSION_LIFETIME = 150 #seconds
 
 CURRENT_REQUESTS = 0
 
@@ -90,7 +90,7 @@ def go_cookie_test(self):
 	self.send_header("Set-Cookie", "user=" + str(ruuid) + "; Expires: Wed, 01 Jan 2025 00:00:00 GMT")
 	self.end_headers()
 
-	self.wfile.write(str(story_sessions).encode())
+#	self.wfile.write(str(story_sessions).encode())
 
 	return
 
@@ -275,6 +275,7 @@ def rem_session_after_time(session_key):
 	time.sleep(SESSION_LIFETIME)
 	global story_sessions
 	if session_key in story_sessions:
+		print(" => Session " + str(session_key) + " for story ID " + str(story_sessions[session_key]) + " timing out.")
 		del story_sessions[session_key]
 
 if __name__ == '__main__':
