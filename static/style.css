@@ -7,6 +7,11 @@ body {
 	background-color: inherit;
 }
 
+.abt_background {
+  background-image: linear-gradient(50deg, #581845, #900C3F, #C70039, #FF5733);
+  background-repeat: repeat-x;
+}
+
 .alt_background {
 	background: linear-gradient(45deg, #38307f, #4d394b);
 	background-size: 100% 100%;
@@ -20,7 +25,7 @@ body {
 		50%{background-position:100% 50%}
 		100%{background-position:0% 50%}
 	}
-	
+
 	@-moz-keyframes alt_background-animation {
 		0%{background-position:0% 50%}
 		50%{background-position:100% 50%}
@@ -34,9 +39,17 @@ body {
 	}
 }
 
+
+
 .gray_background {
 	background-image: linear-gradient(#404040, #C0C0C0);
 	background-repeat: repeat-x;
+}
+
+#about {
+	font-family: "Tillium Web", sans-serif;
+	font-weight: lighter;
+	color: silver;
 }
 
 #old_line {
@@ -84,9 +97,45 @@ input[type='text']:focus {
 	width: 95%;
 }
 
+.center-head {
+position: 5%;
+}
+
+.body_abt {
+  text-shadow: 1px 1px #000000;
+  margin-left: 200px;
+  margin-right: 200px;
+  padding: 20px;
+  line-height: 250%;
+  text-align: center;
+}
+
 .btn:hover {
 	background-color: #3b596f;
 	color: black;
+}
+
+.btn-help:hover {
+  background-color: darkorange;
+  color:white;
+}
+
+.btn-abt:hover {
+  background-color: lightblue;
+  color: white;
+}
+
+.btn-help {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  color: white;
+  padding: 1px 3px;
+  background-color: black;
+  font-size: 20px;
+  line-height: 1.428571429;
+  border-radius: 40px;
+  margin-top: 20%;
 }
 
 .btn-another:hover {
@@ -99,16 +148,16 @@ input[type='text']:focus {
 }
 
 .btn-circle {
-	width: 30px;
-	height: 30px;
+	width: 35px;
+	height: 35px;
 	text-align: center;
-	padding: 6px 0;
+	padding: 4px 10px;
 	color: white;
 	background-color: black;
 	font-size: 12px;
 	line-height: 1.428571429;
 	border-radius: 20px;
-	margin-left: 5px;
+	margin-left: 7px;
 }
 
 .btn-animate:hover {
