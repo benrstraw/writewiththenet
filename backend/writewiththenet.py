@@ -148,6 +148,10 @@ def go_get_line(self):
 			print("Error: {}".format(error))
 			return
 		mariadb_connection.commit()
+
+		cursor.execute("SELECT COUNT(story_id) FROM wtn_lines WHERE story_id = %s", (story_id,))
+		lines_left = MAX_LINES_PER_STORY - cursor.fetchone()[0]
+
 		CURRENT_REQUESTS = 0
 	else:
 		#cursor.execute("SELECT line_text FROM wtn_lines WHERE last_seen < NOW() - INTERVAL 5 MINUTE ORDER BY ID DESC LIMIT 1")
@@ -211,7 +215,10 @@ def go_get_line(self):
 
 	kvjson = {}
 	kvjson["text"] = line_text
-	kvjson["left"] = lines_left
+	if lines_left < 2:
+		kvjson["left"] = lines_left
+	else:
+		kvjson["left"] = 999
 	kvjson["story_session"] = story_session
 
 	resp = json.dumps(kvjson)
