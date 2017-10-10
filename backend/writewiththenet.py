@@ -92,7 +92,7 @@ def go_get_story(self):
 	self.send_header("Content-Type", "application/json")
 	self.end_headers()
 
-	cursor.execute("SELECT line_text FROM story_lines WHERE story_id = %s", (get_vars['id'][0],))
+	cursor.execute("SELECT line_text FROM wtn_lines WHERE story_id = %s", (get_vars['id'][0],))
 	thelines = cursor.fetchall()
 	resp = json.dumps(thelines)
 #	print(resp)
@@ -125,26 +125,24 @@ def go_get_line(self):
 	story_id = -1
 	if CURRENT_REQUESTS >= REQUESTS_BEFORE_NEW_STORY:
 		line_text = secrets.choice(stories)
-		cursor.execute("SELECT MAX(story_id) FROM story_lines")
+		cursor.execute("SELECT MAX(story_id) FROM wtn_lines")
 		story_id = cursor.fetchone()[0] + 1
 
 		try:
-			cursor.execute("INSERT INTO story_lines (story_id, line_text) VALUES (%s,%s)", (story_id, line_text))
+			cursor.execute("INSERT INTO wtn_lines (story_id, line_text) VALUES (%s,%s)", (story_id, line_text))
 		except mariadb.Error as error:
 			print("Error: {}".format(error))
 			return
 		mariadb_connection.commit()
 		CURRENT_REQUESTS = 0
 	else:
-		#cursor.execute("SELECT line_text FROM story_lines WHERE last_seen < NOW() - INTERVAL 5 MINUTE ORDER BY ID DESC LIMIT 1")
+		#cursor.execute("SELECT line_text FROM wtn_lines WHERE last_seen < NOW() - INTERVAL 5 MINUTE ORDER BY ID DESC LIMIT 1")
 		cursor.execute("""SELECT * FROM
-			(SELECT * FROM story_lines WHERE line_id IN (SELECT MAX(line_id) FROM story_lines GROUP BY story_id HAVING COUNT(*) <= %s) ORDER BY line_id DESC) AS last_lines
-			WHERE last_seen < NOW() - INTERVAL %s SECOND""", (MAX_LINES_PER_STORY, SEEN_LIVE_TIME))
 
 		recents = cursor.fetchall()
 		if not recents:
 			line_text = secrets.choice(stories)
-			cursor.execute("SELECT MAX(story_id) FROM story_lines")
+			cursor.execute("SELECT MAX(story_id) FROM wtn_lines")
 			last_story_id = cursor.fetchone()[0]
 			if last_story_id:
 				story_id = last_story_id + 1
@@ -152,22 +150,22 @@ def go_get_line(self):
 				story_id = 1
 
 			try:
-				cursor.execute("INSERT INTO story_lines (story_id, line_text) VALUES (%s,%s)", (story_id, line_text))
+				cursor.execute("INSERT INTO wtn_lines (story_id, line_text) VALUES (%s,%s)", (story_id, line_text))
 			except mariadb.Error as error:
 				print("Error: {}".format(error))
 				return
 			mariadb_connection.commit()
 		else:
 			new_line_id = secrets.choice(recents)[0]
-			cursor.execute("SELECT line_text, story_id FROM story_lines WHERE line_id = %s", (new_line_id,))
+			cursor.execute("SELECT line_text, story_id FROM wtn_lines WHERE line_id = %s", (new_line_id,))
 			res = cursor.fetchone()
 			line_text = res[0]
 			story_id = int(res[1])
-			cursor.execute("UPDATE story_lines SET last_seen = NOW() WHERE line_id = %s", (new_line_id,))
+			cursor.execute("UPDATE wtn_lines SET last_seen = NOW() WHERE line_id = %s", (new_line_id,))
 			mariadb_connection.commit()
 
 
-		cursor.execute("SELECT COUNT(story_id) FROM story_lines WHERE story_id = %s", (story_id,))
+		cursor.execute("SELECT COUNT(story_id) FROM wtn_lines WHERE story_id = %s", (story_id,))
 		lines_left = MAX_LINES_PER_STORY - cursor.fetchone()[0]
 
 	self.end_headers()
@@ -208,9 +206,9 @@ def go_post_line(self, post_data):
 
 	try:
 		if ruuid:
-			cursor.execute("INSERT INTO story_lines (story_id, line_text, user_id) VALUES (%s,%s,%s)", (post_vars['story_id'][0], post_vars['new_line'][0], ruuid))
+			cursor.execute("INSERT INTO wtn_lines (story_id, line_text, user_id) VALUES (%s,%s,%s)", (post_vars['story_id'][0], post_vars['new_line'][0], ruuid))
 		else:
-			cursor.execute("INSERT INTO story_lines (story_id, line_text) VALUES (%s,%s)", (post_vars['story_id'][0], post_vars['new_line'][0]))
+			cursor.execute("INSERT INTO wtn_lines (story_id, line_text) VALUES (%s,%s)", (post_vars['story_id'][0], post_vars['new_line'][0]))
 	except mariadb.Error as error:
 		print("Error: {}".format(error))
 
