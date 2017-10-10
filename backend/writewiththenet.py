@@ -28,7 +28,7 @@ stories = [
 	"And with that, you become the first person to step foot on Mars."
 ]
 
-mariadb_connection = mariadb.connect(user='root', password=private_db_password, database='writewiththenet')
+mariadb_connection = mariadb.connect(unix_socket='/run/mysqld/mysqld.sock', host='localhost', user=private_db_user, password=private_db_password, database=private_db_database)
 cursor = mariadb_connection.cursor()
 
 class WriteWithTheNet(BaseHTTPRequestHandler):
@@ -54,7 +54,7 @@ class WriteWithTheNet(BaseHTTPRequestHandler):
 
 		#post_vars = urllib.parse.parse_qs(raw_post_data)
 		#post_json = json.loads(raw_post_data)
-		
+
 		paths = {
 			'/post_line'	: go_post_line	# plain text input
 		}
@@ -190,9 +190,9 @@ def go_post_line(self, post_data):
 		self.send_response(500)
 		self.end_headers()
 		return
-	
+
 	post_vars = urllib.parse.parse_qs(post_data)
-	
+
 	if "new_line" not in post_vars or "story_id" not in post_vars:
 		self.send_response(501)
 		self.end_headers()
@@ -225,14 +225,14 @@ def go_post_line(self, post_data):
 if __name__ == '__main__':
 	server_class = HTTPServer
 	httpd = server_class((HOST_NAME, PORT_NUMBER), WriteWithTheNet)
-	
+
 	print(time.asctime(), 'Server Starts - %s:%s' % (HOST_NAME, PORT_NUMBER))
-	
+
 	try:
 		httpd.serve_forever()
 	except KeyboardInterrupt:
 		pass
-	
+
 	httpd.server_close()
 
 	mariadb_connection.commit()
