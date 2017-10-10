@@ -7,6 +7,11 @@ body {
   background-color: inherit;
 }
 
+.abt_background {
+  background-image: linear-gradient(45deg, #38307f, #4d394b);
+  background-repeat: repeat-x;
+}
+
 .alt_background {
   background: linear-gradient(45deg, #38307f, #4d394b);
 background-size: 100% 100%;
@@ -32,9 +37,19 @@ animation: alt_background-animation 5s ease infinite;
 }
 }
 
+
+
 .gray_background {
   background-image: linear-gradient(#404040, #C0C0C0);
   background-repeat: repeat-x;
+}
+
+#about
+{
+  font-family: "Tillium Web", sans-serif;
+  font-weight: lighter;
+  color: silver;
+
 }
 
 #old_line
@@ -79,6 +94,19 @@ input[type='text'] {
 
 input[type='text']:focus {
     width: 95%;
+}
+
+.center-head {
+position: 5%;
+}
+
+.body_abt {
+  text-shadow: 1px 1px #000000;
+  margin-left: 200px;
+  margin-right: 200px;
+  padding: 20px;
+  line-height: 250%;
+  text-align: center;
 }
 
 .btn:hover {
