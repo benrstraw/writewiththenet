@@ -20,6 +20,7 @@ MAX_LINES_PER_STORY = 25
 REQUESTS_BEFORE_NEW_STORY = 15
 SEEN_LIVE_TIME = 150 #seconds
 SESSION_LIFETIME = 150 #seconds
+MAX_LINE_LENGTH = 250
 
 CURRENT_REQUESTS = 0
 
@@ -234,6 +235,11 @@ def go_post_line(self, post_data):
 
 	if "new_line" not in post_vars or "story_session" not in post_vars:
 		print(" => Missing POST vars: " + str(post_vars))
+		self.send_response(400)
+		self.end_headers()
+		return
+
+	if len(post_vars['new_line'][0]) > MAX_LINE_LENGTH:
 		self.send_response(400)
 		self.end_headers()
 		return
