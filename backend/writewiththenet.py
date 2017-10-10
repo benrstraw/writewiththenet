@@ -132,7 +132,7 @@ def go_get_line(self):
 		cursor.execute("SELECT MAX(story_id) FROM wtn_lines")
 		story_id = cursor.fetchone()[0] + 1
 
-		print(" => get_line request threshold reached. Inserting new line: id=" + str(story_id) + " text=\"" + str(line_text) + "\"")
+		print(" => Request threshold reached. Inserting new story with ID = " + str(story_id))
 
 		try:
 			cursor.execute("INSERT INTO wtn_lines (story_id, line_text) VALUES (%s,%s)", (story_id, line_text))
@@ -164,7 +164,7 @@ def go_get_line(self):
 			else:
 				story_id = 1
 
-			print(" => No acceptable stories found for user " + str(ruuid) + ", inserting new story: id=" + str(story_id) + " text=\"" + str(line_text) + "\"")
+			print(" => No acceptable stories found for user " + str(ruuid) + ", inserting new story with ID = " + str(story_id))
 
 			try:
 				cursor.execute("INSERT INTO wtn_lines (story_id, line_text) VALUES (%s,%s)", (story_id, line_text))
