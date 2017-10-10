@@ -53,7 +53,7 @@ class WriteWithTheNet(BaseHTTPRequestHandler):
 		if urllib.parse.urlparse(self.path).path in paths:
 			paths[urllib.parse.urlparse(self.path).path](self)
 		else:
-			self.send_response(500)
+			self.send_response(400)
 			self.end_headers()
 
 		return
@@ -73,7 +73,7 @@ class WriteWithTheNet(BaseHTTPRequestHandler):
 		if self.path in paths:
 			paths[self.path](self, raw_post_data)
 		else:
-			self.send_response(500)
+			self.send_response(400)
 			self.end_headers()
 
 		return
@@ -97,7 +97,7 @@ def go_cookie_test(self):
 def go_get_story(self):
 	get_vars = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
 	if "id" not in get_vars:
-		self.send_response(500)
+		self.send_response(400)
 		self.end_headers()
 		return
 
@@ -139,7 +139,7 @@ def go_get_line(self):
 		cursor.execute("SELECT MAX(story_id) FROM wtn_lines")
 		story_id = cursor.fetchone()[0] + 1
 
-		print(" => Request threshold reached. Inserting new story with ID = " + str(story_id))
+		print(" +> Request threshold reached. Inserting new story with ID = " + str(story_id))
 
 		try:
 			cursor.execute("INSERT INTO wtn_lines (story_id, line_text) VALUES (%s,%s)", (story_id, line_text))
@@ -171,7 +171,7 @@ def go_get_line(self):
 			else:
 				story_id = 1
 
-			print(" => No acceptable stories found for user " + str(ruuid) + ", inserting new story with ID = " + str(story_id))
+			print(" +> No acceptable stories found for user " + str(ruuid) + ", inserting new story with ID = " + str(story_id))
 
 			try:
 				cursor.execute("INSERT INTO wtn_lines (story_id, line_text) VALUES (%s,%s)", (story_id, line_text))
@@ -225,23 +225,23 @@ def go_post_line(self, post_data):
 	global story_sessions
 
 	if not post_data:
-		self.send_response(500)
+		print(" => No POST data?!")
+		self.send_response(400)
 		self.end_headers()
 		return
 
 	post_vars = urllib.parse.parse_qs(post_data)
 
 	if "new_line" not in post_vars or "story_session" not in post_vars:
-		self.send_response(501)
+		print(" => Missing POST vars: " + str(post_vars))
+		self.send_response(400)
 		self.end_headers()
 		return
 
 	new_story_session = int(post_vars['story_session'][0])
 	if new_story_session not in story_sessions:
-		print(" => Invalid story session of " + str(new_story_session))
-		print(story_sessions)
-		print(new_story_session)
-		self.send_response(502)
+		print(" => Invalid story session of " + str(new_story_session) + ". Sessions: " + str(story_sessions))
+		self.send_response(400)
 		self.end_headers()
 		return
 
@@ -275,7 +275,7 @@ def rem_session_after_time(session_key):
 	time.sleep(SESSION_LIFETIME)
 	global story_sessions
 	if session_key in story_sessions:
-		print(" => Session " + str(session_key) + " for story ID " + str(story_sessions[session_key]) + " timing out.")
+		print(" ~> Session " + str(session_key) + " for story ID " + str(story_sessions[session_key]) + " timing out.")
 		del story_sessions[session_key]
 
 if __name__ == '__main__':
