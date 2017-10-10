@@ -8,8 +8,8 @@ body {
 }
 
 .abt_background {
-  background-image: linear-gradient(50deg, #581845, #900C3F, #C70039, #FF5733);
-  background-repeat: repeat-x;
+	background-image: linear-gradient(50deg, #581845, #900C3F, #C70039, #FF5733);
+	background-repeat: repeat-x;
 }
 
 .alt_background {
@@ -98,16 +98,16 @@ input[type='text']:focus {
 }
 
 .center-head {
-position: 5%;
+	position: 5%;
 }
 
 .body_abt {
-  text-shadow: 1px 1px #000000;
-  margin-left: 200px;
-  margin-right: 200px;
-  padding: 20px;
-  line-height: 250%;
-  text-align: center;
+	text-shadow: 1px 1px #000000;
+	margin-left: 200px;
+	margin-right: 200px;
+	padding: 20px;
+	line-height: 250%;
+	text-align: center;
 }
 
 .btn:hover {
@@ -116,26 +116,26 @@ position: 5%;
 }
 
 .btn-help:hover {
-  background-color: darkorange;
-  color:white;
+	background-color: darkorange;
+	color:white;
 }
 
 .btn-abt:hover {
-  background-color: lightblue;
-  color: white;
+	background-color: lightblue;
+	color: white;
 }
 
 .btn-help {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  color: white;
-  padding: 1px 3px;
-  background-color: black;
-  font-size: 20px;
-  line-height: 1.428571429;
-  border-radius: 40px;
-  margin-top: 20%;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	color: white;
+	padding: 1px 3px;
+	background-color: black;
+	font-size: 20px;
+	line-height: 1.428571429;
+	border-radius: 40px;
+	margin-top: 20%;
 }
 
 .btn-another:hover {
