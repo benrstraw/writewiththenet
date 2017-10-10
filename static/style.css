@@ -114,9 +114,27 @@ position: 5%;
     color: black;
 }
 
+.btn-help:hover {
+  background-color: darkorange;
+  color:white;
+}
+
 .btn-abt:hover {
   background-color: lightblue;
   color: white;
+}
+
+.btn-help {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  color: white;
+  padding: 1px 3px;
+  background-color: black;
+  font-size: 20px;
+  line-height: 1.428571429;
+  border-radius: 40px;
+  margin-top: 20%;
 }
 
 .btn-another:hover {
