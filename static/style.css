@@ -8,7 +8,7 @@ body {
 }
 
 .abt_background {
-  background-image: linear-gradient(45deg, #38307f, #4d394b);
+  background-image: linear-gradient(50deg, #581845, #900C3F, #C70039, #FF5733);
   background-repeat: repeat-x;
 }
 
@@ -114,6 +114,11 @@ position: 5%;
     color: black;
 }
 
+.btn-abt:hover {
+  background-color: lightblue;
+  color: white;
+}
+
 .btn-another:hover {
   background-color: #4C9689;
   color: white;
@@ -124,16 +129,16 @@ position: 5%;
 }
 
 .btn-circle {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   text-align: center;
-  padding: 6px 0;
+  padding: 4px 10px;
   color: white;
   background-color: black;
   font-size: 12px;
   line-height: 1.428571429;
   border-radius: 20px;
-  margin-left: 5px;
+  margin-left: 7px;
 }
 
 .btn-animate:hover {
