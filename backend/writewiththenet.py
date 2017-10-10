@@ -15,8 +15,8 @@ HOST_NAME = 'localhost'
 PORT_NUMBER = 8462
 
 MAX_LINES_PER_STORY = 25
-MAX_REQS_BEFORE_NEW = 10
-SEEN_LIVE_TIME = 30 #seconds
+REQUESTS_BEFORE_NEW_STORY = 15
+SEEN_LIVE_TIME = 60 #seconds
 
 CURRENT_REQUESTS = 0
 
@@ -123,7 +123,7 @@ def go_get_line(self):
 	line_text = ""
 	lines_left = 999
 	story_id = -1
-	if CURRENT_REQUESTS >= MAX_REQS_BEFORE_NEW:
+	if CURRENT_REQUESTS >= REQUESTS_BEFORE_NEW_STORY:
 		line_text = secrets.choice(stories)
 		cursor.execute("SELECT MAX(story_id) FROM story_lines")
 		story_id = cursor.fetchone()[0] + 1
