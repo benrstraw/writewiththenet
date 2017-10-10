@@ -138,6 +138,15 @@ def go_get_line(self):
 	else:
 		#cursor.execute("SELECT line_text FROM wtn_lines WHERE last_seen < NOW() - INTERVAL 5 MINUTE ORDER BY ID DESC LIMIT 1")
 		cursor.execute("""SELECT * FROM
+			(SELECT * FROM wtn_lines WHERE line_id IN
+			(SELECT MAX(line_id) FROM wtn_lines GROUP BY story_id HAVING COUNT(*) <= %s)
+			AND line_id NOT IN (SELECT line_id FROM wtn_lines WHERE user_id <> %s)
+			ORDER BY line_id DESC) AS last_lines
+			WHERE last_seen < NOW() - INTERVAL %s SECOND""", (ruuid, MAX_LINES_PER_STORY, SEEN_LIVE_TIME))
+
+#		cursor.execute("""SELECT * FROM
+#			(SELECT * FROM wtn_lines WHERE line_id IN (SELECT MAX(line_id) FROM wtn_lines GROUP BY story_id HAVING COUNT(*) <= %s) ORDER BY line_id DESC) AS last_lines
+#			WHERE last_seen < NOW() - INTERVAL %s SECOND""", (MAX_LINES_PER_STORY, SEEN_LIVE_TIME))
 
 		recents = cursor.fetchall()
 		if not recents:
