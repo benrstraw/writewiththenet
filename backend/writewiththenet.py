@@ -95,9 +95,6 @@ def go_get_story(self):
 	cursor.execute("SELECT line_text FROM wtn_lines WHERE story_id = %s", (get_vars['id'][0],))
 	thelines = cursor.fetchall()
 	resp = json.dumps(thelines)
-#	print(resp)
-
-#	resp = "{\"text\":\"" + line_text + "\",\"left\":" + str(lines_left) + ",\"story_id\":" + str(story_id) + "}"
 
 	self.wfile.write(resp.encode())
 	return
@@ -106,6 +103,7 @@ def go_get_line(self):
 	self.send_response(200)
 	self.send_header("Content-Type", "application/json")
 
+	ruuid = 0
 	if "Cookie" in self.headers:
 		C = cookies.BaseCookie(self.headers["Cookie"])
 		if "user" in C:
@@ -127,6 +125,8 @@ def go_get_line(self):
 		line_text = secrets.choice(stories)
 		cursor.execute("SELECT MAX(story_id) FROM wtn_lines")
 		story_id = cursor.fetchone()[0] + 1
+
+		print(" => get_line request threshold reached. Inserting new line: id=" + str(story_id) + " text=\"" + str(line_text) + "\"")
 
 		try:
 			cursor.execute("INSERT INTO wtn_lines (story_id, line_text) VALUES (%s,%s)", (story_id, line_text))
@@ -158,6 +158,8 @@ def go_get_line(self):
 			else:
 				story_id = 1
 
+			print(" => No acceptable stories found for user " + str(ruuid) + ", inserting new story: id=" + str(story_id) + " text=\"" + str(line_text) + "\"")
+
 			try:
 				cursor.execute("INSERT INTO wtn_lines (story_id, line_text) VALUES (%s,%s)", (story_id, line_text))
 			except mariadb.Error as error:
@@ -185,7 +187,7 @@ def go_get_line(self):
 	kvjson["story_id"] = story_id
 
 	resp = json.dumps(kvjson)
-	print(resp)
+	print(" => get_line responding with: " + str(resp))
 
 	#resp = "{\"text\":\"" + line_text + "\",\"left\":" + str(lines_left) + ",\"story_id\":" + str(story_id) + "}"
 
@@ -205,9 +207,6 @@ def go_post_line(self, post_data):
 		self.end_headers()
 		return
 
-#	print(post_vars)
-	print(post_vars['new_line'][0].encode('utf-8'))
-
 	if "Cookie" in self.headers:
 		C = cookies.BaseCookie(self.headers["Cookie"])
 		if "user" in C:
@@ -215,8 +214,10 @@ def go_post_line(self, post_data):
 
 	try:
 		if ruuid:
+			print(" <= User " + str(ruuid) + " submitted to post_line: " + str(post_vars))
 			cursor.execute("INSERT INTO wtn_lines (story_id, line_text, user_id) VALUES (%s,%s,%s)", (post_vars['story_id'][0], post_vars['new_line'][0], ruuid))
 		else:
+			print(" <= Anonymous user submitted to post_line: " + str(post_vars))
 			cursor.execute("INSERT INTO wtn_lines (story_id, line_text) VALUES (%s,%s)", (post_vars['story_id'][0], post_vars['new_line'][0]))
 	except mariadb.Error as error:
 		print("Error: {}".format(error))
