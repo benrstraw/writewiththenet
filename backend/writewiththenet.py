@@ -9,6 +9,8 @@ import urllib
 import json
 import secrets
 import random
+import threading
+import sys
 from private_data import *
 
 HOST_NAME = 'localhost'
@@ -17,8 +19,11 @@ PORT_NUMBER = 8462
 MAX_LINES_PER_STORY = 25
 REQUESTS_BEFORE_NEW_STORY = 15
 SEEN_LIVE_TIME = 60 #seconds
+SESSION_LIFETIME = 300 #seconds
 
 CURRENT_REQUESTS = 0
+
+story_sessions = {}
 
 stories = [
 	"Once upon a time, there was some code.",
@@ -84,6 +89,8 @@ def go_cookie_test(self):
 	self.send_header("Content-Type", "application/json")
 	self.send_header("Set-Cookie", "user=" + str(ruuid) + "; Expires: Wed, 01 Jan 2025 00:00:00 GMT")
 	self.end_headers()
+
+	self.wfile.write(str(story_sessions).encode())
 
 	return
 
@@ -185,12 +192,26 @@ def go_get_line(self):
 		cursor.execute("SELECT COUNT(story_id) FROM wtn_lines WHERE story_id = %s", (story_id,))
 		lines_left = MAX_LINES_PER_STORY - cursor.fetchone()[0]
 
+	story_session = random.randint(1, 2147483648)
+
+	global story_sessions
+	while(story_session in story_sessions):
+		story_session = random.randint(1, 2147483648)
+
+	story_sessions[story_session] = story_id
+
+	t = threading.Thread(target=rem_session_after_time, args=[story_session])
+	t.start()
+
+	print(" => Saved session " + str(story_session) + " as story ID " + str(story_sessions[story_session]))
+
+	self.send_header("Set-Cookie", "story_session=" + str(story_session) + "")
 	self.end_headers()
 
 	kvjson = {}
 	kvjson["text"] = line_text
 	kvjson["left"] = lines_left
-	kvjson["story_id"] = story_id
+	kvjson["story_session"] = story_session
 
 	resp = json.dumps(kvjson)
 	print(" => get_line responding with: " + str(resp))
@@ -201,6 +222,8 @@ def go_get_line(self):
 	return
 
 def go_post_line(self, post_data):
+	global story_sessions
+
 	if not post_data:
 		self.send_response(500)
 		self.end_headers()
@@ -208,10 +231,22 @@ def go_post_line(self, post_data):
 
 	post_vars = urllib.parse.parse_qs(post_data)
 
-	if "new_line" not in post_vars or "story_id" not in post_vars:
+	if "new_line" not in post_vars or "story_session" not in post_vars:
 		self.send_response(501)
 		self.end_headers()
 		return
+
+	new_story_session = int(post_vars['story_session'][0])
+	if new_story_session not in story_sessions:
+		print(" => Invalid story session of " + str(new_story_session))
+		print(story_sessions)
+		print(new_story_session)
+		self.send_response(502)
+		self.end_headers()
+		return
+
+	story_id = story_sessions[new_story_session]
+	del story_sessions[new_story_session]
 
 	if "Cookie" in self.headers:
 		C = cookies.BaseCookie(self.headers["Cookie"])
@@ -221,20 +256,26 @@ def go_post_line(self, post_data):
 	try:
 		if ruuid:
 			print(" <= User " + str(ruuid) + " submitted to post_line: " + str(post_vars))
-			cursor.execute("INSERT INTO wtn_lines (story_id, line_text, user_id) VALUES (%s,%s,%s)", (post_vars['story_id'][0], post_vars['new_line'][0], ruuid))
+			cursor.execute("INSERT INTO wtn_lines (story_id, line_text, user_id) VALUES (%s,%s,%s)", (story_id, post_vars['new_line'][0], ruuid))
 		else:
 			print(" <= Anonymous user submitted to post_line: " + str(post_vars))
-			cursor.execute("INSERT INTO wtn_lines (story_id, line_text) VALUES (%s,%s)", (post_vars['story_id'][0], post_vars['new_line'][0]))
+			cursor.execute("INSERT INTO wtn_lines (story_id, line_text) VALUES (%s,%s)", (story_id, post_vars['new_line'][0]))
 	except mariadb.Error as error:
 		print("Error: {}".format(error))
 
 	mariadb_connection.commit()
 
-	line_number = 2
+#	line_number = 2
 	self.send_response(303)
-	self.send_header("Location", "/story?id=" + str(post_vars['story_id'][0]) )# + "&line=" + str(line_number))
+	self.send_header("Location", "/story?id=" + str(story_id) )# + "&line=" + str(line_number))
 	self.end_headers()
 	return
+
+def rem_session_after_time(session_key):
+	time.sleep(SESSION_LIFETIME)
+	global story_sessions
+	if session_key in story_sessions:
+		del story_sessions[session_key]
 
 if __name__ == '__main__':
 	server_class = HTTPServer
