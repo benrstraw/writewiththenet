@@ -1,115 +1,118 @@
 html {
-  height: 100%;
-  width: 100%;
+	height: 100%;
+	width: 100%;
 }
 
 body {
-  background-color: inherit;
+	background-color: inherit;
 }
 
 .alt_background {
-  background: linear-gradient(45deg, #38307f, #4d394b);
-background-size: 100% 100%;
+	background: linear-gradient(45deg, #38307f, #4d394b);
+	background-size: 100% 100%;
 
--webkit-animation: alt_background-animation 5s ease infinite;
--moz-animation: alt_background-animation 5s ease infinite;
-animation: alt_background-animation 5s ease infinite;
+	-webkit-animation: alt_background-animation 5s ease infinite;
+	-moz-animation: alt_background-animation 5s ease infinite;
+	animation: alt_background-animation 5s ease infinite;
 
-@-webkit-keyframes alt_background-animation {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-@-moz-keyframes alt_background-animation {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-@keyframes alt_background-animation {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
+	@-webkit-keyframes alt_background-animation {
+		0%{background-position:0% 50%}
+		50%{background-position:100% 50%}
+		100%{background-position:0% 50%}
+	}
+	
+	@-moz-keyframes alt_background-animation {
+		0%{background-position:0% 50%}
+		50%{background-position:100% 50%}
+		100%{background-position:0% 50%}
+	}
+
+	@keyframes alt_background-animation {
+		0%{background-position:0% 50%}
+		50%{background-position:100% 50%}
+		100%{background-position:0% 50%}
+	}
 }
 
 .gray_background {
-  background-image: linear-gradient(#404040, #C0C0C0);
-  background-repeat: repeat-x;
+	background-image: linear-gradient(#404040, #C0C0C0);
+	background-repeat: repeat-x;
 }
 
-#old_line
-{
-  font-family: "Arial", Arial, sans-serif;
-  font-style: normal;
-  font-size: 2.35em;
-  position: relative;
-  margin-top: 20%;
+#old_line {
+	font-family: "Arial", Arial, sans-serif;
+	font-style: normal;
+	font-size: 2.35em;
+	position: relative;
+	margin-top: 20%;
 }
 
-#new_line
-{
-  font-family: "Arial", Arial, sans-serif;
-  font-style: normal;
-  font-size: 1em;
-  position: relative;
-  margin-top: 10%;
-  color: white;
+#new_line {
+	font-family: "Arial", Arial, sans-serif;
+	font-style: normal;
+	font-size: 1em;
+	position: relative;
+	margin-top: 10%;
+	color: white;
 
 }
 
 form {
-    display: table;
-    width: 90%;
+	display: table;
+	width: 90%;
 }
+
 span {
-    display: table-cell;
-    text-align: center;
+	display: table-cell;
+	text-align: center;
 }
+
 span:first-child {
-    width: 100%;
+	width: 100%;
 }
+
 input[type='text'] {
-    box-sizing: border-box;
-    -webkit-transition: width 1s;
-    -moz-transition: width 1s;
-    transition: width 1s;
-    width: 50%;
-    height: 30px;
+	box-sizing: border-box;
+	-webkit-transition: width 1s;
+	-moz-transition: width 1s;
+	transition: width 1s;
+	width: 50%;
+	height: 30px;
 }
 
 input[type='text']:focus {
-    width: 95%;
+	width: 95%;
 }
 
 .btn:hover {
-    background-color: #3b596f;
-    color: black;
+	background-color: #3b596f;
+	color: black;
 }
 
 .btn-another:hover {
-  background-color: #4C9689;
-  color: white;
+	background-color: #4C9689;
+	color: white;
 }
 
 .btn-another {
-  margin: 220px;
+	margin: 220px;
 }
 
 .btn-circle {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  padding: 6px 0;
-  color: white;
-  background-color: black;
-  font-size: 12px;
-  line-height: 1.428571429;
-  border-radius: 20px;
-  margin-left: 5px;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	padding: 6px 0;
+	color: white;
+	background-color: black;
+	font-size: 12px;
+	line-height: 1.428571429;
+	border-radius: 20px;
+	margin-left: 5px;
 }
 
 .btn-animate:hover {
-  -webkit-transform: rotate(360deg);
-  -ms-transform: rotate(360deg);
-  -moz-transform: rotate(360deg);
+	-webkit-transform: rotate(360deg);
+	-ms-transform: rotate(360deg);
+	-moz-transform: rotate(360deg);
 }
