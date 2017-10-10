@@ -32,6 +32,12 @@ mariadb_connection = mariadb.connect(unix_socket='/run/mysqld/mysqld.sock', host
 cursor = mariadb_connection.cursor()
 
 class WriteWithTheNet(BaseHTTPRequestHandler):
+	def log_message(self, format, *args):
+		print("[%s] - %s > %s" %
+							(self.log_date_time_string(),
+							self.headers['X-Real-IP'],
+							 format%args))
+
 	def do_GET(self):
 		paths = {
 			'/get_line'		: go_get_line,
