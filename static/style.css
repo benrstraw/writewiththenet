@@ -135,7 +135,7 @@ input[type='text']:focus {
 	font-size: 20px;
 	line-height: 1.428571429;
 	border-radius: 40px;
-	margin-top: 10%;
+	margin-top: 20px;
 }
 
 .btn-another:hover {
